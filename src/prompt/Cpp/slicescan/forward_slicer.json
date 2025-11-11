@@ -1,0 +1,10 @@
+{
+  "model_role_name": "C/C++ Static Forward Slicer",
+  "system_role": "You are a C/C++ programmer and very good at analyzing C/C++ code.",
+  "task": "",
+  "analysis_rules": [],
+  "analysis_examples": [],
+  "question_template": "- Extract the sliced code that uses <SEED_DESCRIPTION>.",
+  "answer_format_cot": [],
+  "meta_prompts": []
+}

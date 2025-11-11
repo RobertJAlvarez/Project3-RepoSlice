@@ -1,0 +1,114 @@
+{
+    "slicing_request_id": "slice_request_backward_02",
+    "relevant_function_names_to_line_numbers": {
+        "main": [
+            2,
+            3,
+            31,
+            32,
+            34
+        ],
+        "analyze_data": [
+            1,
+            2,
+            3,
+            31
+        ],
+        "filter_input": [
+            1,
+            2,
+            3,
+            26,
+            31,
+            35
+        ],
+        "validate_range": [
+            1,
+            2,
+            3,
+            36
+        ],
+        "normalize_value": [
+            1,
+            2,
+            3,
+            33
+        ],
+        "check_bounds": [
+            1,
+            2,
+            3,
+            21,
+            26,
+            27,
+            30,
+            36
+        ],
+        "apply_scaling": [
+            1,
+            2,
+            22,
+            38
+        ]
+    },
+    "whitelist_line_numbers": {
+        "main": [
+            1,
+            18,
+            21,
+            28,
+            29,
+            43,
+            50,
+            51
+        ],
+        "analyze_data": [
+            15,
+            18,
+            23,
+            29,
+            32
+        ],
+        "filter_input": [
+            15,
+            18,
+            24,
+            30,
+            32,
+            36,
+            37
+        ],
+        "valid_range": [
+            16,
+            27,
+            28,
+            34,
+            37
+        ],
+        "normalize_value": [
+            15,
+            18,
+            25,
+            26,
+            31,
+            34
+        ],
+        "check_bounds": [
+            15,
+            18,
+            25,
+            31,
+            35,
+            37,
+            38
+        ],
+        "apply_scaling": [
+            16,
+            20,
+            29,
+            30,
+            36,
+            39
+        ]
+    }
+}

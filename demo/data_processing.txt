@@ -1,0 +1,386 @@
+Given a function and a variable denoted as 'seed', perform backward program slicing to extract code statements that influence the value of 'seed', i.e., the data and control dependencies of the `seed`.
+
+Example 1:
+User:
+Given the function:
+```
+1. int foo(int a) {
+2.     int seed = 0;
+3.     if (a < 0) {
+4.         return -1;
+5.     } else {
+6.         seed = a * goo(a);
+7.         a++;
+8.     }
+9.     return seed;
+10. }
+```
+Which code statements are included in the static slice related to the return value?
+System:
+Explanation: The function has two execution paths for the return value:
+- If 'a < 0', the function returns -1.
+- If 'a >= 0', 'seed' is computed as 'a * goo(a)'.
+The return value depends on parameter 'a' and the function 'goo'.
+Answer:
+Slice:
+```
+1. int foo(int a) {
+2.     int seed = 0;
+3.     if (a < 0) {
+4.         return -1;
+5.     } else {
+6.         seed = a * goo(a);
+8.     }
+9.     return seed;
+10. }
+```
+
+Example 2:
+User:
+Given the function:
+```
+1. int goo(char* arr) {
+2.     int idx = hoo(arr);
+3.     int *buffer[BUFFER_SIZE];
+4.     int seed = 0;
+5.     if (idx == -1) {
+6.         xoo();
+7.     }
+8.     while (foo(arr)) {
+9.         seed++;
+10.     }
+11.     seed *= hoo(arr);
+12.    buffer[idx] = seed;
+13.    return seed;
+14. }
+```
+Which code statements are included in the static slice related to 'buffer[idx]' at line 12?
+System:
+Explanation: The value of 'buffer[idx]' depends on:
+- 'idx', which is assigned from 'hoo(arr)'.
+- 'BUFFER_SIZE', a global variable.
+- 'seed', which is influenced by 'hoo(arr)' and the loop execution.
+Answer:
+Slice:
+```
+1. int goo(char* arr) {
+2.     int idx = hoo(arr);
+3.     int *buffer[BUFFER_SIZE];
+12.    buffer[idx] = seed;
+14. }
+```
+
+Now, I will provide a whole project. Please generate the backward slices of the variable `final_output` at the line 37 in the file `main.c`. You need to output the slices in each relevant function one by one.
+
+analyzer.c
+1|#include "processor.h"
+2|
+3|/* Main analysis functions */
+4|
+5|int analyze_data(int data_value) {
+6|    int validated = validate_range(data_value);
+7|    int offset = 10;
+8|    int quality_score = 0;
+9|    int processing_time = 0;
+10|    int metadata = 0;
+11|    
+12|    // Quality assessment that doesn't affect main result
+13|    if (data_value > 120) {
+14|        quality_score = 5;
+15|        processing_time = 3;
+16|    } else if (data_value > 80) {
+17|        quality_score = 3;
+18|        processing_time = 2;
+19|    } else {
+20|        quality_score = 1;
+21|        processing_time = 1;
+22|    }
+23|    
+24|    // Metadata collection loop
+25|    for (int m = 0; m < processing_time; m++) {
+26|        metadata = metadata + m + quality_score;
+27|    }
+28|    
+29|    // Additional validation that doesn't change return value
+30|    if (validated > 100) {
+31|        quality_score = quality_score * 2;
+32|        metadata = metadata + validated;
+33|    }
+34|    
+35|    return validated + offset;
+36|}
+37|
+38|int filter_input(int input) {
+39|    int normalized = normalize_value(input);
+40|    int threshold = 50;
+41|    int filter_level = 1;
+42|    int cache_hit = 0;
+43|    int performance_metric = 0;
+44|    
+45|    // Filter level determination
+46|    if (input < 30) {
+47|        filter_level = 3;
+48|        cache_hit = 0;
+49|    } else if (input < 60) {
+50|        filter_level = 2;
+51|        cache_hit = 1;
+52|    } else {
+53|        filter_level = 1;
+54|        cache_hit = 1;
+55|    }
+56|    
+57|    // Performance tracking
+58|    performance_metric = filter_level * cache_hit;
+59|    for (int n = 0; n < filter_level; n++) {
+60|        performance_metric = performance_metric + n;
+61|    }
+62|    
+63|    if (normalized > threshold) {
+64|        // Additional processing in this branch
+65|        if (cache_hit) {
+66|            performance_metric = performance_metric + 5;
+67|        }
+68|        return normalized - threshold;
+69|    } else {
+70|        // Different processing in this branch
+71|        performance_metric = performance_metric + filter_level;
+72|        return normalized;
+73|    }
+74|}
+
+main.c
+1|#include <stdio.h>
+2|#include "processor.h"
+3|
+4|int main() {
+5|    int raw_data = 150;
+6|    int secondary_data = 75;
+7|    int analyzed_result, filtered_result;
+8|    int processing_mode = 1;
+9|    int error_count = 0;
+10|    int batch_size = 0;
+11|    int statistics = 0;
+12|    
+13|    printf("Data Processing Pipeline\n");
+14|    printf("Raw data: %d\n", raw_data);
+15|    printf("Secondary data: %d\n", secondary_data);
+16|    
+17|    // Configuration and setup that doesn't affect main processing
+18|    if (raw_data > 100) {
+19|        processing_mode = 2;
+20|        batch_size = raw_data / 10;
+21|    } else {
+22|        processing_mode = 1;
+23|        batch_size = 5;
+24|    }
+25|    
+26|    // Statistics collection loop
+27|    for (int i = 0; i < 3; i++) {
+28|        statistics = statistics + i * batch_size;
+29|        if (i == 1) {
+30|            error_count = error_count + 1;
+31|        }
+32|    }
+33|    
+34|    analyzed_result = analyze_data(raw_data);
+35|    filtered_result = filter_input(secondary_data);
+36|    
+37|    int final_output = analyzed_result - filtered_result;
+38|    
+39|    // Post-processing validation that doesn't affect final output
+40|    if (final_output < 0) {
+41|        error_count = error_count + 1;
+42|        printf("Warning: Negative result\n");
+43|    } else if (final_output > 200) {
+44|        statistics = statistics + final_output;
+45|        printf("Info: Large result\n");
+46|    }
+47|    
+48|    printf("Analyzed result: %d\n", analyzed_result);
+49|    printf("Filtered result: %d\n", filtered_result);
+50|    printf("Final output: %d\n", final_output);
+51|    printf("Processing mode: %d, Errors: %d\n", processing_mode, error_count);
+52|    
+53|    return 0;
+54|}
+
+processor.h
+1|#ifndef PROCESSOR_H
+2|#define PROCESSOR_H
+3|
+4|/* Main processing functions */
+5|int analyze_data(int data_value);
+6|int filter_input(int input);
+7|
+8|/* Intermediate processing functions */
+9|int validate_range(int value);
+10|int normalize_value(int raw_value);
+11|
+12|/* Core utility functions */
+13|int check_bounds(int value);
+14|int apply_scaling(int value);
+15|
+16|#endif
+
+utilities.c
+1|#include "processor.h"
+2|
+3|/* Core utility functions - deepest level */
+4|
+5|int check_bounds(int value) {
+6|    int min_value = 0;
+7|    int max_value = 200;
+8|    int boundary_violations = 0;
+9|    int correction_applied = 0;
+10|    int security_check = 0;
+11|    
+12|    // Security and boundary violation tracking
+13|    if (value < -1000 || value > 1000) {
+14|        security_check = 1;
+15|        boundary_violations = 2;
+16|    } else if (value < min_value || value > max_value) {
+17|        security_check = 0;
+18|        boundary_violations = 1;
+19|    } else {
+20|        security_check = 0;
+21|        boundary_violations = 0;
+22|    }
+23|    
+24|    // Logging and correction tracking
+25|    if (value < min_value) {
+26|        correction_applied = min_value - value;
+27|        for (int r = 0; r < 2; r++) {
+28|            boundary_violations = boundary_violations + r;
+29|        }
+30|        return min_value;
+31|    } else if (value > max_value) {
+32|        correction_applied = value - max_value;
+33|        security_check = security_check + correction_applied;
+34|        return max_value;
+35|    } else {
+36|        correction_applied = 0;
+37|        if (security_check == 0) {
+38|            boundary_violations = boundary_violations + 1;
+39|        }
+40|        return value;
+41|    }
+42|}
+43|
+44|int apply_scaling(int value) {
+45|    int scale_factor = 2;
+46|    int scaling_method = 1;
+47|    int efficiency_rating = 0;
+48|    int operation_count = 0;
+49|    
+50|    // Scaling method selection
+51|    if (value > 100) {
+52|        scaling_method = 2;
+53|        efficiency_rating = 3;
+54|        operation_count = 1;
+55|    } else if (value > 50) {
+56|        scaling_method = 1;
+57|        efficiency_rating = 2;
+58|        operation_count = 2;
+59|    } else {
+60|        scaling_method = 1;
+61|        efficiency_rating = 1;
+62|        operation_count = 3;
+63|    }
+64|    
+65|    int scaled = value / scale_factor;
+66|    
+67|    // Efficiency tracking and optimization
+68|    for (int s = 0; s < operation_count; s++) {
+69|        efficiency_rating = efficiency_rating + s;
+70|        if (scaling_method == 2) {
+71|            efficiency_rating = efficiency_rating + 1;
+72|        }
+73|    }
+74|    
+75|    // Additional optimization that doesn't affect result
+76|    if (efficiency_rating > 5) {
+77|        scaling_method = scaling_method + 1;
+78|        operation_count = operation_count - 1;
+79|    }
+80|    
+81|    return scaled + 1;
+82|}
+
+validator.c
+1|#include "processor.h"
+2|
+3|/* Intermediate validation and normalization functions */
+4|
+5|int validate_range(int value) {
+6|    int bounded = check_bounds(value);
+7|    int safety_margin = 5;
+8|    int validation_steps = 0;
+9|    int confidence_level = 0;
+10|    int audit_trail = 0;
+11|    
+12|    // Validation confidence assessment
+13|    if (value >= 0 && value <= 300) {
+14|        confidence_level = 3;
+15|        validation_steps = 1;
+16|    } else if (value > 300) {
+17|        confidence_level = 1;
+18|        validation_steps = 3;
+19|        audit_trail = value - 300;
+20|    } else {
+21|        confidence_level = 0;
+22|        validation_steps = 5;
+23|        audit_trail = -value;
+24|    }
+25|    
+26|    // Audit trail generation
+27|    for (int p = 0; p < validation_steps; p++) {
+28|        audit_trail = audit_trail + p * confidence_level;
+29|        if (p % 2 == 0) {
+30|            confidence_level = confidence_level + 1;
+31|        }
+32|    }
+33|    
+34|    // Additional checks that don't affect result
+35|    if (bounded != value) {
+36|        audit_trail = audit_trail + 10;
+37|        validation_steps = validation_steps + 1;
+38|    }
+39|    
+40|    return bounded + safety_margin;
+41|}
+42|
+43|int normalize_value(int raw_value) {
+44|    int scaled = apply_scaling(raw_value);
+45|    int baseline = 20;
+46|    int normalization_factor = 1;
+47|    int precision_level = 0;
+48|    int adjustment_count = 0;
+49|    
+50|    // Precision level determination
+51|    if (raw_value < 50) {
+52|        normalization_factor = 2;
+53|        precision_level = 1;
+54|    } else if (raw_value < 100) {
+55|        normalization_factor = 1;
+56|        precision_level = 2;
+57|    } else {
+58|        normalization_factor = 1;
+59|        precision_level = 3;
+60|    }
+61|    
+62|    // Adjustment calculation loop
+63|    for (int q = 0; q < precision_level; q++) {
+64|        adjustment_count = adjustment_count + q;
+65|        if (scaled > baseline) {
+66|            adjustment_count = adjustment_count + normalization_factor;
+67|        }
+68|    }
+69|    
+70|    // Final precision adjustments that don't affect return
+71|    if (adjustment_count > 5) {
+72|        precision_level = precision_level * 2;
+73|    }
+74|    
+75|    return scaled - baseline;
+76|}
+

@@ -1,0 +1,26 @@
+{
+    "slicing_request_id": "slice_request_forward_01",
+    "relevant_function_names_to_line_numbers": {
+        "main": [
+            2,
+            10,
+            12,
+            20,
+            21,
+            23,
+            25,
+            26,
+            27,
+            30
+        ]
+    },
+    "whitelist_line_numbers": {
+        "main": [
+            1,
+            18,
+            28,
+            33,
+            34
+        ]
+    }
+}

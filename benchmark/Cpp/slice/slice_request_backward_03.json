@@ -1,0 +1,8 @@
+{
+    "slicing_request_id": "slice_request_backward_03",
+    "project_path": "benchmark/Cpp/slice/simple_calculator",
+    "file_path": "benchmark/Cpp/slice/simple_calculator/main.c",
+    "seed_line_number": 39,
+    "seed_name": "total",
+    "is_backward": true
+}

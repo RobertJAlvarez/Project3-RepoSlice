@@ -1,0 +1,12 @@
+black
+tree-sitter>=0.20.0,<0.22.0
+tiktoken
+openai
+google-generativeai
+tqdm
+types-tqdm
+botocore
+boto3
+boto3-stubs[essential]
+mypy
+anthropic

@@ -1,0 +1,8 @@
+{
+    "slicing_request_id": "slice_request_forward_03",
+    "project_path": "benchmark/Cpp/slice/simple_calculator",
+    "file_path": "benchmark/Cpp/slice/simple_calculator/main.c",
+    "seed_line_number": 5,
+    "seed_name": "first_num",
+    "is_backward": false
+}

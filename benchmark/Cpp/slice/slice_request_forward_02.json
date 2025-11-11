@@ -1,0 +1,8 @@
+{
+    "slicing_request_id": "slice_request_forward_02",
+    "project_path": "benchmark/Cpp/slice/data_processing",
+    "file_path": "benchmark/Cpp/slice/data_processing/main.c",
+    "seed_line_number": 5,
+    "seed_name": "raw_data",
+    "is_backward": false
+}

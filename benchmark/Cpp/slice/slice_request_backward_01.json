@@ -1,0 +1,8 @@
+{
+    "slicing_request_id": "slice_request_backward_01",
+    "project_path": "benchmark/Cpp/slice/arithmetic_chain",
+    "file_path": "benchmark/Cpp/slice/arithmetic_chain/main.c",
+    "seed_line_number": 22,
+    "seed_name": "result1",
+    "is_backward": true
+}
